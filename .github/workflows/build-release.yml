@@ -5,7 +5,7 @@ name: Build Release
 on:
   push:
     tags:
-      - 'r[0-9]'
+      - 'r[0-9]+'
 
 jobs:
   build:
@@ -34,6 +34,10 @@ jobs:
 
       - name: Determine the name of the RPM package file
         run: |
+          ls -la .
+          ls -la RPMS
+          ls -la ${{ matrix.arch }}
+          ls -la RPMS/${{ matrix.arch }}/confd-*.${GIT_DATE}git${GIT_HASH}.${{ matrix.arch }}.rpm
           RPM_PATH=RPMS/${{ matrix.arch }}/confd-*.${GIT_DATE}git${GIT_HASH}.${{ matrix.arch }}.rpm
           RPM_NAME=${RPM_PATH##*/}
           tee -a $GITHUB_ENV <<<RPM_PATH=$RPM_PATH
